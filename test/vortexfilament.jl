@@ -11,10 +11,8 @@ using Random
     @test VortexFilament(1.0,[v1,v2,v3],[2]) == VortexFilament(1.0,[v1,v2,v3],[Segment(v1,v2),Segment(v2,v3),Segment(v3,v1)],[1,3],[2])
     @test VortexFilament(1.0,[v1,v2,v3,v1]) == VortexFilament(1.0,[v1,v2,v3],[Segment(v1,v2),Segment(v2,v3),Segment(v3,v1)],[1,2,3],Int64[])
 
-    # r1 = rand(2)
-    # r2 = rand(2)
-    r1 = [1,2]
-    r2 = [3,4]
+    r1 = rand(2)
+    r2 = rand(2)
     for vinf1 in [Vertex(Inf,r1[1],r1[2]),Vertex(-Inf,r1[1],r1[2]),Vertex(r1[1],Inf,r1[2]),Vertex(r1[1],-Inf,r1[2]),Vertex(r1[1],r1[2],Inf),Vertex(r1[1],r1[2],-Inf)]
         @test VortexFilament(1.0,[v1,vinf1]) == VortexFilament(1.0,[v1,vinf1],[Segment(v1,vinf1)],[2],[1])
         @test VortexFilament(1.0,[vinf1,v1]) == VortexFilament(1.0,[vinf1,v1],[Segment(vinf1,v1)],[1],[2])
