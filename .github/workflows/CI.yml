@@ -16,7 +16,7 @@ jobs:
         group:
           - All
         version:
-          - '1.4'
+          - '1.6'
           - 'nightly'
         os:
           - ubuntu-latest
