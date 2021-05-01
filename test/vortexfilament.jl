@@ -1,11 +1,13 @@
 using Random
 
-@testset "VortexFilament constructor" begin
+@testset "VortexFilament" begin
     v1 = rand(3)
     v2 = rand(3)
     v3 = rand(3)
+    vtwodim = rand(2)
 
     @test_throws AssertionError VortexFilament(1.0,[v1])
+    @test_throws AssertionError VortexFilament(1.0,[v1,vtwodim,v3])
     @test VortexFilament(1.0,[v1,v2]) == VortexFilament(1.0,[v1,v2],[Segment(v1,v2),Segment(v2,v1)],[1,2],Int64[])
     @test VortexFilament(1.0,[v1,v2,v3]) == VortexFilament(1.0,[v1,v2,v3],[Segment(v1,v2),Segment(v2,v3),Segment(v3,v1)],[1,2,3],Int64[])
     @test VortexFilament(1.0,[v1,v2,v3],[2]) == VortexFilament(1.0,[v1,v2,v3],[Segment(v1,v2),Segment(v2,v3),Segment(v3,v1)],[1,3],[2])

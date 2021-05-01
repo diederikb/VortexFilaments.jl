@@ -7,7 +7,7 @@ export VortexFilament, Segment, getfreevertices, inducevelocity
 
 const sigma = 0.005;
 const sigsq = sigma*sigma;
-const Segment = SVector{2,Vertex}
+const Segment = SVector{2,AbstractArray}
 
 """
 $(TYPEDEF)
@@ -34,6 +34,7 @@ end
     function VortexFilament(Γ::Real, vertices::Vector{<:AbstractVector}, boundidx::Vector{Int}=Int64[])
     infbools = map(v->in(Inf,abs.(v)),vertices) # boolean array with the i-th element true if the i-th element of vertices lies at infinity
     @assert length(vertices) > 1 "The vortex filament has to contain at least two vertices."
+    @assert all(length.(vertices) .== 3) "Each vertex should have three coordinates."
     @assert !in(true,infbools[2:end-1]) "Only the first or last vertex can have an infinite coordinate value."
     @assert !(in(1,boundidx) && infbools[1]) "The first vertex lies at infinity and can therefore not be a bound vertex."
     @assert !(in(length(vertices),boundidx) && infbools[end]) "The last vertex lies at infinity and can therefore not be a bound vertex."
