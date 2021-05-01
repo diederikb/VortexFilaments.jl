@@ -22,7 +22,7 @@ struct VortexFilament
     """Γ: Strength of the vortex filament."""
     Γ::Real
     """vertices: Array of vertices of the vortex filament."""
-    vertices::Vector{Vertex}
+    vertices::Vector{AbstractVector}
     """segments: Array of segments of the vortex filament."""
     segments::Vector{Segment}
     """freeidx: Array of indices of the free vertices of the vortex filament."""
@@ -31,7 +31,7 @@ struct VortexFilament
     boundidx::Vector{Int}
 end
 
-function VortexFilament(Γ::Real, vertices::Vector{Vertex}, boundidx::Vector{Int}=Int64[])
+    function VortexFilament(Γ::Real, vertices::Vector{<:AbstractVector}, boundidx::Vector{Int}=Int64[])
     infbools = map(v->in(Inf,abs.(v)),vertices) # boolean array with the i-th element true if the i-th element of vertices lies at infinity
     @assert length(vertices) > 1 "The vortex filament has to contain at least two vertices."
     @assert !in(true,infbools[2:end-1]) "Only the first or last vertex can have an infinite coordinate value."
