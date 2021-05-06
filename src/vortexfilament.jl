@@ -250,5 +250,5 @@ function Base.show(io::IO, vf::VortexFilament)
     nv = length(vf.vertices)
     ns = length(vf.segments)
 
-    println(io, "A $type vortex filament with $nv vertices, $ns segments, and strength Γ = $(vf.Γ)")
+    println(io, "A $type vortex filament with $((nv == 1) ? "1 vertex" : "$nv vertices"), $((ns == 1) ? "1 segment" : "$nv segments"), and strength Γ = $(vf.Γ)")
 end

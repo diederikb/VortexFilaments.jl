@@ -120,7 +120,7 @@ end
     downwash(Γ,b,y) = Γ/(4π)*b/((b/2)^2-y^2)
     yrange = range(-b/2,b/2,length=10)
     xevals = [[0.0,y,0.0] for y in yrange]
-    @test isapprox(norm.(inducevelocity.(Ref(vf),xevals[2:end-1])), abs.(downwash.(Γ,b,yrange[2:end-1])), atol=1e-3)
+    @test isapprox(norm.(inducevelocity.(Ref(vf),xevals[2:end-1])), abs.(downwash.(Γ,b,yrange[2:end-1])), atol=1e-2)
 
     # Normal example
     v1 = [-1,-1,0]

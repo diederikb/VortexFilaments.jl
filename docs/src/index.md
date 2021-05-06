@@ -40,6 +40,9 @@ The vortex filament can also be an infinite vortex filament or a semi-infinite v
 vertices = [[-Inf,0.0,0.0], [Inf,0.0,0.0]]
 Γ = 1.0 # strength of the vortex filament
 vf = VortexFilament(Γ,vertices) # infinite vortex filament
+```
+
+```@example index
 plot(vf,xlims=[-2,2],ylims=[-2,2])
 ```
 
@@ -47,6 +50,9 @@ plot(vf,xlims=[-2,2],ylims=[-2,2])
 vertices = [[0,0.0,0.0], [Inf,0.0,0.0]]
 Γ = 1.0 # strength of the vortex filament
 vf = VortexFilament(Γ,vertices) # semi-infinite vortex filament
+```
+
+```@example index
 plot(vf,xlims=[-2,2],ylims=[-2,2])
 ```
 
