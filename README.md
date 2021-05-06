@@ -93,4 +93,4 @@ end
 plot3d!(zeros(length(yrange2)),yrange2,downwash.(1.0,b,yrange2),label="downwash formula")
 plot!([],[],c=:black,label="inducevelocity")
 ```
-![horseshoe](https://user-images.githubusercontent.com/26737762/117224706-7d764e80-adc5-11eb-90b1-a7804a5b3e84.png)
+![horseshoe](https://user-images.githubusercontent.com/26737762/117225243-b95de380-adc6-11eb-85d1-5f213e04dc6f.png)
