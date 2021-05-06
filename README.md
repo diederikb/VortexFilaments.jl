@@ -23,9 +23,6 @@ vertices = [[0.0,0.0,0.0], [0.0,1.0,0.0], [1.0,1.0,0.0], [1.0,0.0,0.0]]
 Γ = 1.0 # strength of the vortex filament
 vf = VortexFilament(Γ,vertices)
 ```
-```
-A finite vortex filament with 4 vertices, 4 segments, and strength Γ = 1.0
-```
 
 which can then be plotted with the provided type recipe.
 
@@ -39,12 +36,6 @@ The velocity that the vortex filament `vf` induces at a location `x` can be comp
 x = [0.5,0.5,0.5]
 inducevelocity(vf,x)
 ```
-```
-3-element Vector{Float64}:
-  0.0
-  0.0
- -0.3675280948196472
- ```
 
 If you don't want the filament to be closed, provide the constructor with the keyword `isclosed=false`.
 
@@ -60,11 +51,6 @@ The vortex filament can also be an infinite vortex filament or a semi-infinite v
 vertices = [[-Inf,0.0,0.0], [Inf,0.0,0.0]]
 Γ = 1.0 # strength of the vortex filament
 vf = VortexFilament(Γ,vertices) # infinite vortex filament
-```
-```
-A infinite vortex filament with 2 vertices, 1 segment, and strength Γ = 1.0
-```
-```julia
 plot(vf,xlims=[-2,2],ylims=[-2,2])
 ```
 ![infinitevl](https://user-images.githubusercontent.com/26737762/117224672-6fc0c900-adc5-11eb-9fbf-065aa62e1519.png)
@@ -73,11 +59,6 @@ plot(vf,xlims=[-2,2],ylims=[-2,2])
 vertices = [[0,0.0,0.0], [Inf,0.0,0.0]]
 Γ = 1.0 # strength of the vortex filament
 vf = VortexFilament(Γ,vertices) # semi-infinite vortex filament
-```
-```
-A semi-infinite vortex filament with 2 vertices, 1 segment, and strength Γ = 1.0
-```
-```julia
 plot(vf,xlims=[-2,2],ylims=[-2,2])
 ```
 ![semiinfinitevl](https://user-images.githubusercontent.com/26737762/117224686-75b6aa00-adc5-11eb-8707-3d0a258b6c3a.png)
