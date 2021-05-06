@@ -12,7 +12,7 @@ const Segment = SVector{2,AbstractArray}
 """
 $(TYPEDEF)
 
-Defines a vortex filament of strength `Γ` consisting segments that connect the N vertices in `vertices`. Each segment in `segments` connects two subsequent entries of `vertices`. In case the first or last vertex has a coordinate value at infinity (`Inf`), there will be N-1 segments. Otherwise, there will be an N-th segment connecting the last and first vertex and thereby closing the filament. A vertex can be marked as a bound (e.g. to a wing) if its index appears in `boundidx`. Similarly, a vortex is marked as a free vertex if its index appears in `freeidx`. If either the first or last vertex lies at infinity and the other does not, that other vertex is a bound vertex.
+Defines a vortex filament of strength `Γ`, discretized by vertices in `vertices` and segments in `segments`, which connect the vertices. Each segment in `segments` should connect two subsequent entries of `vertices`. A vertex can be marked as a bound (e.g. to a wing) if its index appears in `boundidx`. Similarly, a vortex is marked as a free vertex if its index appears in `freeidx`.
 
 # Fields
 

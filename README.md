@@ -10,12 +10,11 @@ This package provides tools to create and plot vortex filaments and to compute t
 e.g.,
 ```julia
 ] add VortexFilaments
-```
+``` -->
 
-Then, in any version, type
 ```julia
 julia> using VortexFilaments
-``` -->
+```
 
 The package introduces the `VortexFilament` type, which represents a vortex filament that is discretized with vertices and segments connecting those vertices. A vortex filament can be created by calling the provided constructor,
 

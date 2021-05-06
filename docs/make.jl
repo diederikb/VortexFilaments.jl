@@ -1,6 +1,8 @@
 using Documenter
 using VortexFilaments
 
+ENV["GKSwstype"] = "nul"
+
 makedocs(
     sitename = "VortexFilaments",
     format = Documenter.HTML(),
