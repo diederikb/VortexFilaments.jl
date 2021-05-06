@@ -246,9 +246,9 @@ end
 Base.:(==)(a::VortexFilament, b::VortexFilament) = isequal(a.Γ, b.Γ) && isequal(a.vertices, b.vertices) &&  isequal(a.segments, b.segments) && isequal(a.freeidx, b.freeidx) && isequal(a.boundidx, b.boundidx)
 
 function Base.show(io::IO, vf::VortexFilament)
-    isinf(vf) ? type = "infinite" : issemiinf(vf) ? type = "semi-infinite" : type = "finite"
+    isinf(vf) ? type = "Infinite" : issemiinf(vf) ? type = "Semi-infinite" : type = "Finite"
     nv = length(vf.vertices)
     ns = length(vf.segments)
 
-    println(io, "A $type vortex filament with $((nv == 1) ? "1 vertex" : "$nv vertices"), $((ns == 1) ? "1 segment" : "$ns segments"), and strength Γ = $(vf.Γ)")
+    println(io, "$type vortex filament with $((nv == 1) ? "1 vertex" : "$nv vertices"), $((ns == 1) ? "1 segment" : "$ns segments"), and strength Γ = $(vf.Γ)")
 end
