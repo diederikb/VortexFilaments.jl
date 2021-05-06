@@ -1,6 +1,5 @@
 using RecipesBase
 
-import StaticArrays: SVector
 import LinearAlgebra: norm, dot, cross
 
 export VortexFilament, Segment, getfreevertices, inducevelocity, issemiinf
@@ -31,12 +30,12 @@ struct VortexFilament{T<:AbstractVector}
     boundidx::Vector{Int}
 end
 
-function VortexFilament(Γ::Real, vertices::Vector{T}, boundidx::Vector{Int}=Int64[]) where {T<:AbstractVector}
+function VortexFilament(Γ::Real, vertices::Vector{T}, boundidx::Vector{Int}=Int64[]; isclosed::Bool=true) where {T<:AbstractVector}
     infbools = map(v->in(Inf,abs.(v)),vertices) # boolean array with the i-th element true if the i-th element of vertices lies at infinity
-
+    
     segments = Segment.(vertices[1:end-1],vertices[2:end])
 
-    if !in(true,infbools) # if there is no vertex at infinity, close the loop by adding a segment that connects the last and first vertex
+    if !any(infbools[[1,end]]) && isclosed # if there is no vertex at infinity, close the loop by adding a segment that connects the last and first vertex
         push!(segments,Segment(vertices[end],vertices[1]))
     end
 
@@ -238,27 +237,17 @@ lims(dir) = (:xlims, :ylims, :zlims)[dir]
                 end
             end
         end
-
-        # vertices = deepcopy(vcat((s->s[1]).(vf.segments),[vf.segments[end][end]]))
-        #
-        # if in(Inf,abs.(vf.vertices[1])) && in(Inf,abs.(vf.vertices[2]))
-        #     centerpoint = 0.5*(vf.vertices[1] + vf.vertices[2])
-        #     vf.vertices[1][filter!(x->x≠dir,[1,2,3])] .= centerpoint[filter!(x->x≠dir,[1,2,3])]
-        #     vf.vertices[2][filter!(x->x≠dir,[1,2,3])] .= centerpoint[filter!(x->x≠dir,[1,2,3])]
-        # end
-        #
-        # for t in [(1,2),(length(vertices),length(vertices)-1)]
-        #     if -Inf in vertices[t[1]][dir]
-        #         vertices[t[1]] .= vertices[t[2]]
-        #         vertices[t[1]][dir] = inflims[1]
-        #     elseif Inf in vertices[t[1]][dir]
-        #         vertices[t[1]] .= vertices[t[2]]
-        #         vertices[t[1]][dir] = inflims[2]
-        #     end
-        # end
     end
     vertices = vcat((s->s[1]).(segments),[segments[end][end]])
     return (v->v[1]).(vertices), (v->v[2]).(vertices), (v->v[3]).(vertices)
 end
 
 Base.:(==)(a::VortexFilament, b::VortexFilament) = isequal(a.Γ, b.Γ) && isequal(a.vertices, b.vertices) &&  isequal(a.segments, b.segments) && isequal(a.freeidx, b.freeidx) && isequal(a.boundidx, b.boundidx)
+
+function Base.show(io::IO, vf::VortexFilament)
+    isinf(vf) ? type = "infinite" : issemiinf(vf) ? type = "semi-infinite" : type = "finite"
+    nv = length(vf.vertices)
+    ns = length(vf.segments)
+
+    println(io, "A $type vortex filament with $nv vertices, $ns segments, and strength Γ = $(vf.Γ)")
+end

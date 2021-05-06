@@ -111,7 +111,7 @@ end
 
     # Horseshoe vortex
     b = rand(Float64)+1
-    Γ = rand(Float64)
+    Γ = -rand(Float64)
     v1 = [Inf,-b/2,0]
     v2 = [0,-b/2,0]
     v3 = [0,b/2,0]
