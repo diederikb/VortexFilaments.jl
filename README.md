@@ -90,6 +90,7 @@ p = plot(vf,xlims=[-1,4],ylims=[-0.6*b,0.6*b],label=false)
 for i in 1:length(wvec)
     plot3d!((v->v[1]).(wvec[i]),(v->v[2]).(wvec[i]),(v->v[3]).(wvec[i]),color=:black,label=false)
 end
-plot3d!(zeros(length(yrange2)),yrange2,downwash.(1.0,b,yrange2),label=false)
+plot3d!(zeros(length(yrange2)),yrange2,downwash.(1.0,b,yrange2),label="downwash formula")
+plot!([],[],c=:black,label="inducevelocity")
 ```
 ![horseshoe](https://user-images.githubusercontent.com/26737762/117224706-7d764e80-adc5-11eb-90b1-a7804a5b3e84.png)
