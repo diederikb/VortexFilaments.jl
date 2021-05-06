@@ -66,7 +66,7 @@ plot(vf,xlims=[-2,2],ylims=[-2,2])
 These filaments also work with the `inducevelocity` method. This provides the possibility to model a horseshoe vortex.
 ```julia
 b = 1
-Γ = -1.0 # sign depends on the order of the vertices
+Γ = 1.0 # sign depends on the order of the vertices
 v1 = [Inf,-b/2,0]
 v2 = [0,-b/2,0]
 v3 = [0,b/2,0]

@@ -111,16 +111,23 @@ end
 
     # Horseshoe vortex
     b = rand(Float64)+1
-    Γ = -rand(Float64)
+    Γ = rand(Float64)
     v1 = [Inf,-b/2,0]
     v2 = [0,-b/2,0]
     v3 = [0,b/2,0]
     v4 = [Inf,b/2,0]
-    vf = VortexFilament(Γ,[v1,v2,v3,v4])
-    downwash(Γ,b,y) = Γ/(4π)*b/((b/2)^2-y^2)
+    vf = VortexFilament(Γ,[v1,v2,v3,v4]) # with this order of vertices, the circulation should be positive to have a negative downwash
+    downwash(Γ,b,y) = -Γ/(4π)*b/((b/2)^2-y^2)
     yrange = range(-b/2,b/2,length=10)
     xevals = [[0.0,y,0.0] for y in yrange]
-    @test isapprox(norm.(inducevelocity.(Ref(vf),xevals[2:end-1])), abs.(downwash.(Γ,b,yrange[2:end-1])), atol=1e-2)
+    @test isapprox((v->v[3]).(inducevelocity.(Ref(vf),xevals[2:end-1])), downwash.(Γ,b,yrange[2:end-1]), atol=1e-2)
+
+    # Infinite vortex filament
+    Γ = rand(Float64)
+    v1 = [-Inf,0,0]
+    v2 = [Inf,0,0]
+    vf = VortexFilament(Γ,[v1,v2])
+    @test isapprox(inducevelocity(vf,[0,1,0]), [0.0,0.0,Γ/(2π)], atol=1e-2)
 
     # Normal example
     v1 = [-1,-1,0]

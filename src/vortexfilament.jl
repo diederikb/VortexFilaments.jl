@@ -150,7 +150,7 @@ function inducevelocity(s::Segment,xeval)
         t < 0 ? K2 = -1 : K2 = 1 # if t < 0, v does not lie on the segment
         vfiniteseg = inducevelocity(Segment(v,s[finidx]),xeval)
 
-        vseminfseg = 1/(4π)*cross(xeval-v,edir)/(dot(xeval-v,xeval-v)+ sigsq)
+        vseminfseg = -1/(4π)*cross(xeval-v,edir)/(dot(xeval-v,xeval-v)+ sigsq)
         vnet = K1*K2*vfiniteseg + K1*vseminfseg
         return vnet
 
@@ -163,7 +163,7 @@ function inducevelocity(s::Segment,xeval)
         centerpoint[dir] = 0.0
 
         v,t = _closestpointonfinitesegmentaxis(Segment(centerpoint,centerpoint+edir),xeval)
-        vinfseg = 1/(2π)*cross(xeval-v,edir)/(dot(xeval-v,xeval-v) + sigsq)
+        vinfseg = -1/(2π)*cross(xeval-v,edir)/(dot(xeval-v,xeval-v) + sigsq)
         return vinfseg
     else
         r = Ref(xeval) .- s;
