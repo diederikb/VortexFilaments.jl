@@ -1,6 +1,7 @@
 using RecipesBase
 
 import LinearAlgebra: norm, dot, cross
+import StaticArrays: SVector
 
 export VortexFilament, Segment, getfreevertices, inducevelocity, issemiinf
 
@@ -32,7 +33,7 @@ end
 
 function VortexFilament(Γ::Real, vertices::Vector{T}, boundidx::Vector{Int}=Int64[]; isclosed::Bool=true) where {T<:AbstractVector}
     infbools = map(v->in(Inf,abs.(v)),vertices) # boolean array with the i-th element true if the i-th element of vertices lies at infinity
-    
+
     segments = Segment.(vertices[1:end-1],vertices[2:end])
 
     if !any(infbools[[1,end]]) && isclosed # if there is no vertex at infinity, close the loop by adding a segment that connects the last and first vertex
