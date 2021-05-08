@@ -16,34 +16,40 @@ Defines a vortex filament of strength `Γ`, discretized by vertices in `vertices
 
 # Fields
 
-$(TYPEDFIELDS)
+$(FIELDS)
 """
-struct VortexFilament{T<:AbstractVector}
+struct VortexFilament{TV<:AbstractVector{<:AbstractVector},TI<:AbstractVector{Int}}
     """Γ: Strength of the vortex filament."""
     Γ::Real
     """vertices: Array of vertices of the vortex filament."""
-    vertices::Vector{T}
+    vertices::TV
     """segments: Array of segments of the vortex filament."""
     segments::Vector{Segment}
     """freeidx: Array of indices of the free vertices of the vortex filament."""
-    freeidx::Vector{Int}
+    freeidx::TI
     """boundidx: Array of indices of the bound vertices of the vortex filament."""
-    boundidx::Vector{Int}
+    boundidx::TI
 end
 
-function VortexFilament(Γ::Real, vertices::Vector{T}, boundidx::Vector{Int}=Int64[]; isclosed::Bool=true) where {T<:AbstractVector}
-    infbools = map(v->in(Inf,abs.(v)),vertices) # boolean array with the i-th element true if the i-th element of vertices lies at infinity
+"""
+$(SIGNATURES)
 
-    segments = Segment.(vertices[1:end-1],vertices[2:end])
+Constructs a `VortexFilament` with strength `Γ` and vertices `v`. `boundidx` can be used to provide the indices of vertices that are considered as 'bound'. The constructor then set `freeidx` of the `VortexFilament` as the complementary list of indices. If the keyword `isclosed` is `true`, the
+`segments` of the `VortexFilament` will contain a segment that connects the first and last vertex in `v`, provided that these do not contain an infinite coordinate.
+"""
+function VortexFilament(Γ::Real, v::TV, boundidx::TI=Int64[]; isclosed::Bool=true) where {TV<:AbstractVector{<:AbstractVector}, TI<:AbstractVector{Int}}
+    infbools = map(v->in(Inf,abs.(v)),v) # boolean array with the i-th element true if the i-th element of v lies at infinity
+
+    segments = Segment.(v[1:end-1],v[2:end])
 
     if !any(infbools[[1,end]]) && isclosed # if there is no vertex at infinity, close the loop by adding a segment that connects the last and first vertex
-        push!(segments,Segment(vertices[end],vertices[1]))
+        push!(segments,Segment(v[end],v[1]))
     end
 
     boundidx = unique(boundidx) # remove any duplicates from boundidx
-    freeidx = setdiff(1:length(vertices),boundidx)
+    freeidx = setdiff(1:length(v),boundidx)
 
-    return VortexFilament{T}(Γ,vertices,segments,freeidx,boundidx)
+    return VortexFilament{TV,TI}(Γ,v,segments,freeidx,boundidx)
 end
 
 """

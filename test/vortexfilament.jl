@@ -1,5 +1,6 @@
 using Random
 using LinearAlgebra: norm
+using Plots
 
 @testset "VortexFilament constructor" begin
     v1 = rand(3)
@@ -143,4 +144,18 @@ end
     vtwodim = rand(2)
     @test_throws DimensionMismatch inducevelocity(VortexFilament(1.0,[v1,vtwodim,v2]),rand(3))
 
+end
+
+@testset "plot" begin
+    vertices = [[0.0,0.0,0.0], [0.0,1.0,0.0], [1.0,1.0,0.0], [1.0,0.0,0.0]]
+    vf = VortexFilament(1.0,vertices)
+    plot(vf)
+
+    vertices = [[0,0.0,0.0], [Inf,0.0,0.0]]
+    vf = VortexFilament(1.0,vertices) # semi-infinite vortex filament
+    plot(vf,xlims=[0,2])
+
+    vertices = [[-Inf,0.0,0.0], [Inf,0.0,0.0]]
+    vf = VortexFilament(1.0,vertices) # infinite vortex filament
+    plot(vf,xlims=[-2,2])
 end
