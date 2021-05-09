@@ -7,11 +7,11 @@
 
 This package provides tools to create and plot vortex filaments and to compute the velocity they induce in three dimensions with support for infinite and semi-infinite vortex filaments.
 
-<!-- **VortexFilaments.jl** is registered in the general Julia registry. To install, type
+**VortexFilaments.jl** is registered in the general Julia registry. To install, type
 e.g.,
 ```julia
 ] add VortexFilaments
-``` -->
+```
 
 ```julia
 using VortexFilaments
