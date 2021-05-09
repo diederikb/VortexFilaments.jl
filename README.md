@@ -12,7 +12,7 @@ e.g.,
 ```julia
 ] add VortexFilaments
 ```
-
+Then, in any version, type
 ```julia
 using VortexFilaments
 ```
