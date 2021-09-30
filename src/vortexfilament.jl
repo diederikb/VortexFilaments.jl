@@ -5,8 +5,6 @@ import StaticArrays: SVector
 
 export VortexFilament, Segment, getfreevertices, inducevelocity, issemiinf
 
-const sigma = 0.005;
-const sigsq = sigma*sigma;
 const Segment = SVector{2,AbstractArray}
 
 """
@@ -69,7 +67,7 @@ $(TYPEDSIGNATURES)
 Checks if `s` is an infinite segment.
 """
 function Base.:isinf(s::Segment)
-    return in(Inf,abs.(s[1])) && in(Inf,abs.(s[2]))
+    return any(isinf,s[1]) && any(isinf,s[2])
 end
 
 """
@@ -88,7 +86,7 @@ $(TYPEDSIGNATURES)
 Checks if `s` is a semi-infinite segment.
 """
 function issemiinf(s::Segment)
-    return xor(in(Inf,abs.(s[1])),in(Inf,abs.(s[2])))
+    return xor(any(isinf,s[1]),any(isinf,s[2]))
 end
 
 """
@@ -172,25 +170,25 @@ function inducevelocity(s::Segment,xeval)
         vinfseg = -1/(2π)*cross(xeval-v,edir)/(dot(xeval-v,xeval-v) + sigsq)
         return vinfseg
     else
-        r = Ref(xeval) .- s;
-        xnorm = sqrt.(dot.(r,r) .+ sigsq);
-        xdir = r./xnorm;
+        eps = 1e-10
 
-        x21  = s[2] - s[1];
-        lensq = dot(x21,x21);
+        r0 = s[2] - s[1]
+        r1 = xeval - s[1]
+        r2 = xeval - s[2]
+        r1norm = norm(r1)
+        r2norm = norm(r2)
 
-        # b = rj x rj+1
-        b = cross(r[1],r[2]);
-        bsq = dot(b,b)+sigsq*lensq;
+        r1r2 = cross(r1,r2)
+        r1r2sq = dot(r1r2,r1r2)
 
-        # f = rj/|rj| - rj+1/|rj+1|
-        f = xdir[1] - xdir[2];
-
-        g = -dot(x21,f);
-        boverbsq = b/bsq;
-
-        # Velocity
-        vseg = -1/(4π)*boverbsq*g;
+        if r1norm < eps || r2norm < eps || r1r2sq < eps
+            vseg = zeros(3)
+        else
+            r0r1 = dot(r0,r1)
+            r0r2 = dot(r0,r2)
+            K = 1.0/(4.0*π*r1r2sq)*(r0r1/r1norm - r0r2/r2norm)
+            vseg = K*r1r2
+        end
 
         return vseg
     end
