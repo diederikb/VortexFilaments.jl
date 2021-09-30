@@ -137,7 +137,7 @@ end
     v4 = [1,-1,1]
 
     vf = VortexFilament(1.0,[v1,v2,v3,v4])
-    @test inducevelocity(vf,[-1,0,1]) ≈ [0.1566735365948611; 0.0; -0.12386284345966522]
+    @test isapprox(inducevelocity(vf,[-1,0,1]),[0.15667; 0.0; -0.12386]; atol=1e-5)
 
     v1 = rand(3)
     v2 = rand(3)

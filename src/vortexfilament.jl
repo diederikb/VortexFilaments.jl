@@ -6,6 +6,7 @@ import StaticArrays: SVector
 export VortexFilament, Segment, getfreevertices, inducevelocity, issemiinf
 
 const Segment = SVector{2,AbstractArray}
+const eps = 1e-10
 
 """
 $(TYPEDEF)
@@ -154,8 +155,14 @@ function inducevelocity(s::Segment,xeval)
         t < 0 ? K2 = -1 : K2 = 1 # if t < 0, v does not lie on the segment
         vfiniteseg = inducevelocity(Segment(v,s[finidx]),xeval)
 
-        vseminfseg = -1/(4π)*cross(xeval-v,edir)/(dot(xeval-v,xeval-v)+ sigsq)
-        vnet = K1*K2*vfiniteseg + K1*vseminfseg
+        w = xeval - v
+
+        if norm(w) < eps
+            vnet = zeros(3)
+        else
+            vseminfseg = -1/(4π)*cross(w,edir)/dot(w,w)
+            vnet = K1*K2*vfiniteseg + K1*vseminfseg
+        end
         return vnet
 
     elseif isinf(s)
@@ -167,11 +174,16 @@ function inducevelocity(s::Segment,xeval)
         centerpoint[dir] = 0.0
 
         v,t = _closestpointonfinitesegmentaxis(Segment(centerpoint,centerpoint+edir),xeval)
-        vinfseg = -1/(2π)*cross(xeval-v,edir)/(dot(xeval-v,xeval-v) + sigsq)
+
+        w = xeval - v
+
+        if norm(w) < eps
+            vinfseg = zeros(3)
+        else
+            vinfseg = -1/(2π)*cross(w,edir)/dot(w,w)
+        end
         return vinfseg
     else
-        eps = 1e-10
-
         r0 = s[2] - s[1]
         r1 = xeval - s[1]
         r2 = xeval - s[2]
