@@ -4,11 +4,7 @@ using VortexFilaments
 ENV["GKSwstype"] = "nul"
 
 makedocs(
-    sitename = "VortexFilaments",
-    format = Documenter.HTML(),
     modules = [VortexFilaments]
-)
-makedocs(
     sitename = "VortexFilaments.jl",
     doctest = true,
     clean = true,
