@@ -4,7 +4,7 @@ using VortexFilaments
 ENV["GKSwstype"] = "nul"
 
 makedocs(
-    modules = [VortexFilaments]
+    modules = [VortexFilaments],
     sitename = "VortexFilaments.jl",
     doctest = true,
     clean = true,
