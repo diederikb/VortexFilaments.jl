@@ -63,7 +63,7 @@ plot(vf,xlims=[-2,2],ylims=[-2,2])
 ```
 ![semiinfinitevl](https://user-images.githubusercontent.com/26737762/117224686-75b6aa00-adc5-11eb-8707-3d0a258b6c3a.png)
 
-These filaments also work with the `inducevelocity` method. This provides the possibility to model a horseshoe vortex.
+These (semi-)infinite filaments also work with the `inducevelocity` method. This provides the possibility to model a horseshoe vortex.
 ```julia
 b = 1
 Γ = 1.0 # sign depends on the order of the vertices
