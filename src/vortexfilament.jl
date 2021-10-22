@@ -3,7 +3,7 @@ using RecipesBase
 import LinearAlgebra: norm, dot, cross
 import StaticArrays: SVector
 
-export VortexFilament, Segment, getfreevertices, inducevelocity, issemiinf
+export VortexFilament, Segment, getfreevertices, getboundvertices, inducevelocity, issemiinf
 
 const Segment = SVector{2,AbstractArray}
 const eps = 1e-10
@@ -54,9 +54,29 @@ end
 """
 $(TYPEDSIGNATURES)
 
+Returns the free vertices of the vortex filament `vf`.
+"""
+function getfreevertices(vf::VortexFilament)
+    v = vf.vertices[vf.freeidx]
+    return v
+end
+
+"""
+$(TYPEDSIGNATURES)
+
+Returns the bound vertices of the vortex filament `vf`.
+"""
+function getboundvertices(vf::VortexFilament)
+    v = vf.vertices[vf.boundidx]
+    return v
+end
+
+"""
+$(TYPEDSIGNATURES)
+
 Checks if `vf` is an infinite vortex filament.
 """
-function Base.:isinf(vf::VortexFilament)
+@inline function Base.:isinf(vf::VortexFilament)
     any(isinf,vf.segments) && return true
     semiinfsegs = findall(issemiinf,vf.segments)
     return length(semiinfsegs) > 1
@@ -67,7 +87,7 @@ $(TYPEDSIGNATURES)
 
 Checks if `s` is an infinite segment.
 """
-function Base.:isinf(s::Segment)
+@inline function Base.:isinf(s::Segment)
     return any(isinf,s[1]) && any(isinf,s[2])
 end
 
@@ -76,7 +96,7 @@ $(TYPEDSIGNATURES)
 
 Checks if `vf` is a semi-infinite vortex filament.
 """
-function issemiinf(vf::VortexFilament)
+@inline function issemiinf(vf::VortexFilament)
     semiinfsegs = findall(issemiinf,vf.segments)
     return length(semiinfsegs) == 1
 end
@@ -86,7 +106,7 @@ $(TYPEDSIGNATURES)
 
 Checks if `s` is a semi-infinite segment.
 """
-function issemiinf(s::Segment)
+@inline function issemiinf(s::Segment)
     return xor(any(isinf,s[1]),any(isinf,s[2]))
 end
 
@@ -216,7 +236,7 @@ function inducevelocity(vf::VortexFilament,xeval)
     vel *= vf.Γ
 end
 
-function _closestpointonfinitesegmentaxis(s::Segment,p)
+@inline function _closestpointonfinitesegmentaxis(s::Segment,p)
     a = s[1]
     b = s[2]
     ab = b-a
